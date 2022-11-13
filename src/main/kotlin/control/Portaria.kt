@@ -1,33 +1,37 @@
 package control
 
-import busines.ConviteBusines
+import busines.ConvidadoBusines
+import entity.Convidado
 
 class Portaria {
 
-    private val conviteBusines = ConviteBusines()
+    private val convidadoBusines = ConvidadoBusines()
+
     init {
         println("Portaria inicializada")
         println(controle())
     }
 
-   private fun controle(): String {
+    private fun controle(): String {
 
         val idade = Console.readInt("Qual sua idade? ")
-        if (idade < 18) {
+        val convidado = Convidado(idade = idade)
+
+        if (!convidadoBusines.maiorDeIdade(convidado.idade)) {
             return "Negado. Menos de idade não são permitidos."
         }
 
-        val tipoConvite = Console.readString("Qual o tipo de convite? ")
-        if(!conviteBusines.tipoValido(tipoConvite)){
+        convidado.tipo = Console.readString("Qual o tipo de convite? ")
+        if (!convidadoBusines.tipoValido(convidado.tipo)) {
             return "Negado. Convite inválido"
         }
 
-       val codigo = Console.readString("Qual o código do convite? ")
-       if(!conviteBusines.codigoValido(codigo, tipoConvite)){
-           return "Negado. Convite inválido"
-       }
+        convidado.codigo = Console.readString("Qual o código do convite? ")
+        if (!convidadoBusines.convidadoValido(convidado)) {
+            return "Negado. Convite inválido"
+        }
 
-       return "TODO!"
+        return "Welcome!"
     }
 
 }
